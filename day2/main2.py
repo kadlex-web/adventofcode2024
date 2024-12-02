@@ -1,7 +1,7 @@
 def difference(a, b):
     return int(a) - int(b)
 
-file = "test2.txt"
+file = "adventofcodeday2.txt"
 
 with open(file) as f:
     file_contents = f.read()
@@ -20,6 +20,9 @@ for line in file_contents.split("\n"):
             if diff < -3 or diff > -1:
                 #print("unsafe")
                 danger_count += 1
+            elif diff > 0:
+                print("unsafe")
+                danger_count += 1
 
     elif int(my_list[0]) < int(my_list[-1]):
         #print("ascending")
@@ -28,8 +31,14 @@ for line in file_contents.split("\n"):
             if diff > 3 or diff < 1:
                 #print("unsafe")
                 danger_count += 1
+            elif diff < 0:
+                print("unsafe")
+                danger_count += 1
+                
+    elif int(my_list[0]) == int(my_list[-1]):
+        danger_count += 1
         
-    if danger_count == 0:
+    if danger_count == 0 or danger_count == 1:
         #print("safe levels")
         safe_list.append(my_list)
         total_safe += 1
