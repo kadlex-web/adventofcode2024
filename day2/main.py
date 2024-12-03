@@ -1,16 +1,12 @@
 def difference(a, b):
     return int(a) - int(b)
 
-file = "test2.txt"
+file = "adventofcodeday2.txt"
 file2 = "danger.txt"
 
-# Initial Input
+#Initial Input
 with open(file) as f:
     file_contents = f.read()
-
-# Takes Output of Part I danger_list
-with open(file2) as f:
-    file_contents2 = f.read()
 
 total_safe = 0
 safe_list = []
@@ -53,43 +49,62 @@ for line in file_contents.split("\n"):
     if danger_count == 1:
         danger_list.append(my_list)
 
-# Output for Part I
-"""print("--------------------------")
-print(f"Safe Levels:{total_safe}")
-print("--------------------------")"""
-
-# Begin Part II
+#Begin Part II
 recovered_list = []
-for line in file_contents2.split("\n"):
-    my_list2 = line.split()
-    print(my_list2)
-    
-    if int(my_list2[0]) > int(my_list2[-1]):
+final_list = []
+temp_list = []
+
+for line in danger_list:
+    temp_list.append(line)
+    if int(line[0]) > int(line[-1]):
         print("descending")
-        for i in range(1, len(my_list2)):
-            diff = difference(my_list2[i], my_list2[i - 1])
+        for i in range(1, len(line)):
+            diff = difference(line[i], line[i - 1])
+
             if diff < -3 or diff > -1:
                 print(f"Unsafe levels found between index {i-1} and {i}")
-                print("Analyzing if a fix is possible")
-                level_check = abs(difference(my_list2[i-1], my_list2[i+1]))
+                print(f"{i+1}      {len(line)}")
+                if (i + 1) == len(line):
+                    print("I think we can fix that. The bad level is last in the sequence.\n")
+                    recovered_list.append(line)
+                    break
+
+                level_check = abs(difference(line[i-1], line[i+1]))
                 if level_check <= 3 and level_check >= 1:
-                    print(f"I think we can fix that. Showing a difference of {level_check}")
-                    recovered_list.append(my_list2)
+                    print(f"I think we can fix that. Showing a difference of {level_check}\n")
+                    recovered_list.append(line)
                 else:
-                    print("Think it's too much -- this one is unsafe")
-                   
-    elif int(my_list2[0]) < int(my_list2[-1]):
+                    print("Think it's too much -- this one is unsafe\n")
+                    final_list.append(line)
+                 
+    elif int(line[0]) < int(line[-1]):
         print("ascending")
-        for i in range(1, len(my_list2)):
-            diff = difference(my_list2[i], my_list2[i - 1])
+        for i in range(1, len(line)):
+            diff = difference(line[i], line[i - 1])
+
             if diff > 3 or diff < 1:
                 print(f"Unsafe levels found between index {i-1} and {i}")
-                print("Analyzing if a fix is possible")
-                level_check = abs(difference(my_list2[i-1], my_list2[i+1]))
+                print(f"{i + 1}      {len(line)}")
+                if (i + 1) == len(line):
+                    print("I think we can fix that. The bad level is last in the sequence.\n")
+                    recovered_list.append(line)
+                    break
+                level_check = abs(difference(line[i-1], line[i+1]))
                 if level_check <= 3 and level_check >= 1:
-                    print(f"I think we can fix that. Showing a difference of {level_check}")
-                    recovered_list.append(my_list2)
+                    print(f"I think we can fix that. Showing a difference of {level_check}\n")
+                    recovered_list.append(line)
                 else:
-                    print("Think it's too much -- this one is unsafe")
-for item in recovered_list:
-    print(item)
+                    print("Think it's too much -- this one is unsafe\n")
+                    final_list.append(line)
+    else:
+        print("I think the lines are equal")
+        final_list.append(line)
+
+print(len(temp_list))
+print(len(safe_list))
+print(len(danger_list))
+print(len(recovered_list))
+print(len(final_list))
+
+for list in final_list:
+    print(list)
