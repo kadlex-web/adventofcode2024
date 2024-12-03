@@ -9,3 +9,8 @@ Idea:
     If I can introduce a state of 0/1 for the do() / dont() - than operations can be inferred.
     Can I create a dictionary the key is the string in question and the value is a 1 or 0 codifing if the operation is allowed or not
     Than I could filter through the dictionary for only the entries with a value of 1 assigned to a key and perform an operation on those
+
+Actual:
+    - I used a regex with or (|) statements to match the three cases I was looking for in order and put them into a list
+    - Then I want to go through the list and change all the do/dont values into something else to denote a change in state
+    - When the loop is computing evaluation it should check state first and then proceed
