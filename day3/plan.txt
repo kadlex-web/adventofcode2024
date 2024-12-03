@@ -1,0 +1,29 @@
+Computers are going haywire
+We need to find all instances of mul(X,X) as they are valid sequences
+X can be a 1, 2, or 3 digit number
+Once we have found all of the valid sequences, we need to multiply the two numbers together and get/return the sum
+
+1) Sort the document for valid sequences (function)
+    - use file.read() to bring data in as a string
+    - Build a function to do the searching
+        - Use re library to do a regex to return all matchups
+        - Digit cases that are valid (ignoring mul)
+            - (x,x) / (xx, x) / (xxx, x)
+            - (x, xx) / (xx, xx) / (xxx, xx)
+            - (x, xxx) / (xx, xxx) / (xxx, xxx)
+        - Match must be mul(1-3 digits only,1-3 digits only)
+        - using re.findall() will return a list
+        
+2) Getting the multiples (function)
+    - The list will contain a series of strings such as mul(1,1) / mul(100,15)
+    - We need to loop through the list and remove all the bonus pieces
+    - Could use regex on each string to substitute out and get multiples only
+    - Used three re.subs to clean up the str and change to (XX*XX) format
+
+3) Multiply (function)
+    - Used a function to strip each string at the * and convert to int
+    - Multiply the numbers together
+
+4) Loop through list and apply Multiply function, setting the expression equal to total to create a sum
+
+5) main method than prints the answer

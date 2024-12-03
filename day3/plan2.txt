@@ -1,0 +1,11 @@
+There are some conditionals within the code do() and dont()
+A do() means you can complete mul()
+A dont() means you cannot complete mul()
+Only the most reason instruction applies
+    So if you do() a do() the state continues and we can mul()
+    But if it flips it doesnt
+
+Idea:
+    If I can introduce a state of 0/1 for the do() / dont() - than operations can be inferred.
+    Can I create a dictionary the key is the string in question and the value is a 1 or 0 codifing if the operation is allowed or not
+    Than I could filter through the dictionary for only the entries with a value of 1 assigned to a key and perform an operation on those
