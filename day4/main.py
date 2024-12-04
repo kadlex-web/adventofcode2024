@@ -5,35 +5,19 @@ def find_x(x, y, new_data):
     else:
         return False
         
-def find_next(x, y, new_char, new_data):
-    next_list = []
-    if x == 0 and y == 0:
-        search_list1 = [
-            {"char": new_data[x][y+1],
-            "loc_x": x,
-            "loc_y": y+1}, 
-             {"char": new_data[x+1][y],
-             "loc_x": x+1,
-             "loc_y": y}, 
-            {"char": new_data[x+1][y+1],
-            "loc_x": x+1,
-            "loc_y": y+1}
+def find_m(x, y, new_char, new_data):
+    if x == 0:
+        checked_coords_x = [
+            [x, y-1],[x, y+1],[x+1, y-1],[x+1, y],[x+1, y+1]
         ]
-        for element in search_list1:
-            if element["char"] == new_char:
-                next_list.append(element)
-        # only add x and add y (we are at the first character at the top of the grid)
-    elif x == 0:
-        pass
-        # only add x, can subtract and add y (we are in the first row)
     elif y == 0:
-        pass
-        # only add y, can substract or add x (we are in the first column)
+        checked_coords_y = [
+            [x-1, y], [x+1, y],[x-1, y+1],[x, y+1],[x+1, y+1]
+        ]
     else:
-        pass
-        # we can perform any operation we want
-    return next_list
-
+        checked_coords_any = [
+            [x-1, y-1], [x, y-1], [x+1, y-1], [x-1, y], [x+1, y], [x-1, y+1], [x, y+1], [x+1, y+1]
+        ]
 with open("sample.txt") as f:
     data = f.read().split("\n")
     f.close()
@@ -46,9 +30,13 @@ for list in data:
     new_data.append(temp_list)
 
 def main():
+    list_of_x = []
     for x in range(0, len(new_data)):
         for y in range(0, len(new_data[x])):
             if find_x(x, y, new_data):
-                print(f"Found an x at {x},{y}")
+                list_of_x.append([x, y])
                 
-main()
+    for coords in list_of_x:
+        find_m(coords[0], coords[1], "M", new_data)
+
+print(main())
