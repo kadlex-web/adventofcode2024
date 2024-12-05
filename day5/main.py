@@ -33,6 +33,7 @@ def upgrade_check(update_list, rules_dictionary):
                     if num == rule:
                         return False
         return upgrade_check(update_list[:-1], rules_dictionary)
+'''Function which finds the index of a particular list, gets the value, adds it to a total and returns it'''
 def total_middle_value(approved_updates_list):
     total = 0
     for list in approved_updates_list:
@@ -73,5 +74,11 @@ if __name__ == "__main__":
     for list in update_lists:
        if upgrade_check(list, rules_dictionary):
            approved_updates_list.append(list)
-    print(total_middle_value(approved_updates_list))
+    #print(total_middle_value(approved_updates_list))
 
+### Begin Part II ###
+    bad_updates_list = []
+    for list in update_lists:
+        if not upgrade_check(list, rules_dictionary):
+            bad_updates_list.append(list)
+    print(bad_updates_list)
