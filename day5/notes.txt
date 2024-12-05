@@ -1,0 +1,60 @@
+We have page ordering rules first and then we have a list of updates. The ordering rules indicate that a page in a lower index needs to occur (rule-wise) before lower-index ones.
+    So a number occupying the first position in the update HAS to have rules that would have it occuring in that position OR the update isn't valid
+Then once we know an update sequence is valid we have to get the median value and add it to a total
+
+First I want to create a list of page ordering rules so that it can be iterated through
+    I want to sort the list of page ordering rules first by order of the first index for ease of data clarity
+
+The updates have to abide by the page ordering rules:
+    In the example: 75, 47, 61, 53, 29 -- based on the ruleset given in the example -- it works because every page is in order after it
+        in essence the ordering rules look like:
+        - 75 | XX | XX | XX | XX
+        - 47 | XX | XX | XX
+        - 61 | XX | XX
+        - 53 | XX
+        - 29
+
+I'm thinking about it -- and I wonder if it's best to actually start at the end of the sequence, because that item MUST have rules which indicate all pages are before it.
+I bet I could use a dictionary to store all of the first rule pieces as keys, and then the subsequent values as a list. I'd end up with something like 75 : [1, 2, 3].
+Then I could search for the page number (via keys) and access the list and then search through the list to see if the list values in the update list occur in the dictionary values.
+If a value appears -- it means our current update isn't correct because the current page should be located in a higher index positon due to the page ordering rules.
+
+Coded in algo-plain language
+
+Create a dictionary of page order rules where the left number is the key and the right number are any page order rules with the left number value.
+    i.e. 75 | 3 / 75 | 4 / 3 | 9 becomes
+        page_order_rules : {
+            75 : [3, 4],
+            4 : [3],
+        }
+Use a for loop to generate where given a pair (in list form, so they can be accessed), if it exists append the value to the values. otherwise create the key and store the value in it
+    if list[0] in page_order_rules: 
+        page_order_rules[0].append(list[1])
+    else:
+        page_order_rules[0] = [list[1]]
+
+Build a list of update lists so that if an update is successful we can later append it to a success list and find the median value.
+
+Create a recursive function which takes an update sequence list and a dictionary. !!! Do I need to pass in a list of spliced dictionary values?
+
+The update value(list index[-1]) is stored and searched through the dictionary and the dictionary values are stored in a variable.
+Then a loop is run where each value in the dictionary value list is compared to the update value. It can't include the update value so we need to splice the list. 
+If it appears, then we know an ordering rule is violated and we return False.
+!!!!!!!!! The dictionary value list needs to be trimmed to only evaluate the previous characters not the entire string !!!!!!!!!!!
+    so I think to split the value list we would do list[:-1] -- because this omits the final item 
+If it does not appear we can then call this function again for the next page in the update.
+Base case is when the length of the list is empty (len(0)) meaning that we have passed all checks, we can now return the original update list into a master list.
+
+Once finished we can run a loop through the list of successful checks, find the middle index value of each of them and add it to a total. This should give us the correct answer.
+    This would be the length of the indexof(list / 2) rounded up
+
+16,22,38,
+14,
+62,11,52
+
+
+37,21,73,
+25,38,55,
+62,
+59,34,87,
+79,89,64
