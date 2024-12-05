@@ -15,7 +15,7 @@ def change_to_dict(unsorted_rules):
             #print(rules_dictionary)
     return rules_dictionary
 '''Create a recursive function which takes an update sequence list and a dictionary. It takes the last interger in the list and sees if its in the dictionary. If it is it returns the entire list of values associated with that key. It then checks if that key is in the list. If it is -- we have a bad update because the keys are all setup to be left-hand rules in the page ordering rules. Therefore if we find an integer as a value we know our current key should be to the right of it, breaking the sequence'''
-def upgrade_check(update_list, rules_dictionary):
+def update_check(update_list, rules_dictionary):
     if len(update_list) == 1:
         # We've reached the first index meaning the update list is good!
         return True
@@ -72,13 +72,14 @@ if __name__ == "__main__":
 
     # Searches through the lists of updates and finds the ones that are correct using a recursive function
     for list in update_lists:
-       if upgrade_check(list, rules_dictionary):
+       if update_check(list, rules_dictionary):
            approved_updates_list.append(list)
     #print(total_middle_value(approved_updates_list))
 
 ### Begin Part II ###
     bad_updates_list = []
     for list in update_lists:
-        if not upgrade_check(list, rules_dictionary):
+        if not update_check(list, rules_dictionary):
             bad_updates_list.append(list)
     print(bad_updates_list)
+    ## I think you need to just take the list and find when you get to a bad point and then flip the numbers in question and then reiterate through the entire thing again BUT you need to store the new correct list so I think you want to return a tuple maybe? (True, new_list). Keep doing this until you get a correct list.
