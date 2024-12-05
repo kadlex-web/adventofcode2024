@@ -46,15 +46,16 @@ If it does not appear we can then call this function again for the next page in 
 Base case is when the length of the list is empty (len(0)) meaning that we have passed all checks, we can now return the original update list into a master list.
 
 Once finished we can run a loop through the list of successful checks, find the middle index value of each of them and add it to a total. This should give us the correct answer.
-    This would be the length of the indexof(list / 2) rounded up
+    This would be the length of the indexof(list / 2) rounded up. Floor division
 
 16,22,38,
 14,
 62,11,52
-
+len 7 -- 7 / 2 is 3.5 but 7 // 2 is 3. therefore index 3
 
 37,21,73,
 25,38,55,
 62,
 59,34,87,
 79,89,64
+len is 13 -- 13 /2 is 6.5 but 13 // 2 is 6

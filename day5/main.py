@@ -20,24 +20,31 @@ def upgrade_check(update_list, rules_dictionary):
         # We've reached the first index meaning the update list is good!
         return True
     else:
+        # Gets the last item in the update list
         update = update_list[-1]
         associated_rules = []
-        
+        # checks to see if the update is in the rules dictionary
         if update in rules_dictionary:
             associated_rules = rules_dictionary[update]
             for rule in associated_rules:
-                if update == rule:
-                    return False
-                else:
-                    upgrade_check(update_list[:-1], rules_dictionary)
-        else:
-            upgrade_check(update_list[:-1], rules_dictionary)
-            
-with open("rulestest.txt") as f:
+                # this was the key!! I needed to check EVERY item in the update_list against the list of integers in the associated rules
+                for num in update_list[:-1]:
+                    #print(f"comparing {rule} and {num}")
+                    if num == rule:
+                        return False
+        return upgrade_check(update_list[:-1], rules_dictionary)
+def total_middle_value(approved_updates_list):
+    total = 0
+    for list in approved_updates_list:
+        middle_index = len(list) // 2
+        total += list[middle_index]
+    return total
+    
+with open("rules.txt") as f:
     file_contents = f.read()
     f.close()
     
-with open("updatestest.txt") as f:
+with open("updates.txt") as f:
     update_contents = f.read()
     f.close()
 
@@ -64,6 +71,7 @@ if __name__ == "__main__":
 
     # Searches through the lists of updates and finds the ones that are correct using a recursive function
     for list in update_lists:
-        if upgrade_check(list, rules_dictionary):
-            approved_updates_list.append(list)
-    print(approved_updates_list)
+       if upgrade_check(list, rules_dictionary):
+           approved_updates_list.append(list)
+    print(total_middle_value(approved_updates_list))
+
