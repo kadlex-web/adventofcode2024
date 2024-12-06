@@ -1,0 +1,61 @@
+Given a map -- we want to track the path of a guard throughout our map.
+    The guard is represented by the ^ symbol. The guard starts out facing up/north/x-1 in a coordinate system.
+    Guards follow a strict proctol of moving forward unless they encounter an object.
+        If they encounter an object they turn right/90 degrees/ y+1.
+        We need to find out how many squares the guard walks on!
+
+Thoughts on solving:
+    We can build a list of lists to represent the map. Each row of the map corresponds to an X value:
+        the first list would be x=0 and go all the way to the last row x=9.
+        the example list begins at [0][0] and moves all the way to [9][9].
+    Once that is created we can find the "^" character and begin moving about the puzzle.
+    The guard needs to turn right relative to its current orientation.
+    The guard proceeds until it bonks -- so it begins moving up, then moves right, then moves down, then moves left, then up
+        the cycle repeats until the guard is in the last row -- in the example is would be row 9 -- and facing downward
+        where they would begin walking off the map.
+    I think it might be easiest to create a recursive function where the base case is that the guard is in row 9 and facing downward
+    meaning that is the last square the guard will occupy before the puzzle ends.
+    I think the function is recursive because it needs to keep moving until a specific condition is fufilled. 
+    Essentially I am running a "search" algorithm to find how long it takes for the guard to leave.
+    I think at the end I want to return the altered map -- so I can run through the function and total up the number of Xs.
+    If a guard is in a square - that value should change to 'X' from '.' If a value is already X, guard doesnt care.
+
+    Basically I want to do two things -- the guard changes the square it is standing in and it looks ahead to what the next square is
+    based on it's current state and location. So if its up -- and the guard is on [3][3] it would check [2][3] to see what is there.
+    If the guard can move there -- it moves to the square and the cycle repeats. If the guard can't move there -- it's going to change
+    it's direction to the next direction in the order. In the above example it would be right. It then moves there and the cycle repeats.
+
+    Essentially:
+        1) Alter square it is standing on if the square hasn't already been altered
+        2) Check to see if it can move to the next square
+            - If it can it does and we go back to step 1. This would mean it sees a 'X' or '.'
+            - If it can't move to step 3. This would mean it sees a '#'
+        3) Since the guard cannot move to the next square we need to change it's current direction
+        4) The guard then checks to see if it can move to the next square
+            - If it can't it does and we return step 1?
+            - It it can't we return to step 3
+
+Explain it in code:
+    Done! First I need to generate a list of lists which is the stand-in for the map.
+        Get the input data by opening the text file and running a for loop which performs .split("\n") to get all the separate lines.
+    Done! Next I need to search through the list of lists to find the ^ key's index.
+        I can loop through each row list (x) and then each value (y) until I find "^"
+        I can then get that value as starting position which is map[start_x][start_y]
+        This is the input I want to feed into the movement function
+
+    Done!  the movement function takes an int x and an int y, as well as list of lists map, as well as a direction.
+    Done !the first thing it does is change the current square it's standing on by updating map
+        so map[x][y].replace("X") ?? i think [[narrator: it's not it's actually just map[x][y] = 'X']]
+    
+    Im not sure if it's recursion -- it might be functional transformation with recursion? I think I need to write the first step.
+        It's definitely recursion
+        
+    In theory -- the example starts at [6][4] so it would look at [5][4] because it currently is moving up.
+        I could write a series of four conditionals for each direction that is passed into the function which would
+        control what the guard is doing. Let's try that? It seems foolish because I'm violating DRY but it's how im thinking of it.
+    So the guy enters a conditional based on the current directional state.
+        the guy than checks what character is at the next square
+            if guard can move it calls the function again with next_x and next_y and the list of lists map as well as it's current direction
+            if cannot move it's going to change its direction and call the function again with it's current x and current y
+    all of this repeats until the base case happens where the direction == down and the guard x is equal to len of map-1.
+    this would mean the next move would have the guard leave -- it'll change that final square and than reture the list of lists map
