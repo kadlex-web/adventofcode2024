@@ -70,7 +70,6 @@ What about if we looked at the rules list and saw which elements had the most va
 So essentially we take each key value in an update list and retrive the rules under it. In theory we want to find out what numbers contain all
 of the other numbers..? It worked!
 
-
 75,97,47,61,53 becomes 97,75,47,61,53
 61,13,29 becomes 61,29,13
 97,13,75,29,47 becomes 97,75,47,29,13

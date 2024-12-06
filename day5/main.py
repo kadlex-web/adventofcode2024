@@ -62,19 +62,30 @@ def fix_updates(update_list, rules_dictionary):
         else:
             ranked_dict[update] = 0
     return ranked_dict
-
-def total_middle_value(approved_updates_list):
+'''Finds the middle value in a given list based on index and sums it'''
+def total_middle_value(updates_list):
     total = 0
-    for list in approved_updates_list:
+    for list in updates_list:
         middle_index = len(list) // 2
         total += list[middle_index]
     return total
-    
-with open("rulestest.txt") as f:
+'''Takes a rank dictionary and sorts it based on the value of each key'''
+def dictionary_value_sort(rank_dictionary):
+    sorted_dictionary_by_values = sorted(rank_dictionary.items(), key=lambda x:x[1], reverse=True)
+    converted_dict = dict(sorted_dictionary_by_values)
+    return converted_dict
+'''Takes a dictionary and returns a list of the keys'''
+def get_dictionary_keys(sorted_dictionary):
+    update_list = []
+    for key in sorted_dictionary.keys():
+        update_list.append(key)
+    return update_list
+
+with open("rules.txt") as f:
     file_contents = f.read()
     f.close()
     
-with open("updatestest2.txt") as f:
+with open("updates.txt") as f:
     update_contents = f.read()
     f.close()
 
@@ -107,12 +118,15 @@ if __name__ == "__main__":
 
 ### Begin Part II ###
     bad_updates_list = []
+    corrected_updates_list = []
     for list in update_lists:
         if not update_check(list, rules_dictionary):
             bad_updates_list.append(list)
     #print(bad_updates_list)
     for list in bad_updates_list:
-        print(fix_updates(list, rules_dictionary))
-            
+        update_dict = fix_updates(list, rules_dictionary)
+        new_dict = dictionary_value_sort(update_dict)
+        corrected_updates_list.append(get_dictionary_keys(new_dict))
+    print(total_middle_value(corrected_updates_list))
     ## I think you need to just take the list and find when you get to a bad point and then flip the numbers in question and then reiterate through the entire thing again 
     # BUT you need to store the new correct list so I think you want to return a tuple maybe? (True, new_list). Keep doing this until you get a correct list.
