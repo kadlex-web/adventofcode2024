@@ -14,7 +14,11 @@ def change_to_dict(unsorted_rules):
             rules_dictionary[pair_x] = [pair_y]
             #print(rules_dictionary)
     return rules_dictionary
-'''Create a recursive function which takes an update sequence list and a dictionary. It takes the last interger in the list and sees if its in the dictionary. If it is it returns the entire list of values associated with that key. It then checks if that key is in the list. If it is -- we have a bad update because the keys are all setup to be left-hand rules in the page ordering rules. Therefore if we find an integer as a value we know our current key should be to the right of it, breaking the sequence'''
+'''Create a recursive function which takes an update sequence list and a dictionary. 
+It takes the last interger in the list and sees if its in the dictionary. 
+If it is it returns the entire list of values associated with that key. It then checks if that key is in the list. 
+If it is -- we have a bad update because the keys are all setup to be left-hand rules in the page ordering rules. 
+Therefore if we find an integer as a value we know our current key should be to the right of it, breaking the sequence'''
 def update_check(update_list, rules_dictionary):
     if len(update_list) == 1:
         # We've reached the first index meaning the update list is good!
@@ -32,8 +36,33 @@ def update_check(update_list, rules_dictionary):
                     #print(f"comparing {rule} and {num}")
                     if num == rule:
                         return False
-        return upgrade_check(update_list[:-1], rules_dictionary)
-'''Function which finds the index of a particular list, gets the value, adds it to a total and returns it'''
+        return update_check(update_list[:-1], rules_dictionary)
+'''Takes an update list and the rules dictionary as arguments.
+Created a an empty dictionary to store the ranked values
+Then I iterate through the update list and find the rules list list value associated through it
+I then create a rank_value and set it to 0
+I then iterate through the rules_list and check to see if the each value is in the list of updates
+If the value is there we can increment rank_value. The rank_value decides which
+The function returns the rank dictionary to be sorted and evaluated later'''
+def fix_updates(update_list, rules_dictionary):
+    ranked_dict = {}
+    for update in update_list:
+        if update in rules_dictionary:
+            # I want to get a rules list because this will dictate the number of numbers which can be to the right of that number
+            rules_list = rules_dictionary[update]
+            # I want to look at each rule value and see if it is in the update list to determine the weighted "value" of each update
+            # In THEORY, a higher number would mean that the number can be further to the left
+            rank_value = 0
+            for rule_value in rules_list:
+                # Loop through every value for that Update values rules list
+                # if the rule_value is in the update list. increment the counter by 1
+                if rule_value in update_list:
+                    rank_value += 1
+            ranked_dict[update] = rank_value
+        else:
+            ranked_dict[update] = 0
+    return ranked_dict
+
 def total_middle_value(approved_updates_list):
     total = 0
     for list in approved_updates_list:
@@ -41,11 +70,11 @@ def total_middle_value(approved_updates_list):
         total += list[middle_index]
     return total
     
-with open("rules.txt") as f:
+with open("rulestest.txt") as f:
     file_contents = f.read()
     f.close()
     
-with open("updates.txt") as f:
+with open("updatestest2.txt") as f:
     update_contents = f.read()
     f.close()
 
@@ -81,5 +110,9 @@ if __name__ == "__main__":
     for list in update_lists:
         if not update_check(list, rules_dictionary):
             bad_updates_list.append(list)
-    print(bad_updates_list)
-    ## I think you need to just take the list and find when you get to a bad point and then flip the numbers in question and then reiterate through the entire thing again BUT you need to store the new correct list so I think you want to return a tuple maybe? (True, new_list). Keep doing this until you get a correct list.
+    #print(bad_updates_list)
+    for list in bad_updates_list:
+        print(fix_updates(list, rules_dictionary))
+            
+    ## I think you need to just take the list and find when you get to a bad point and then flip the numbers in question and then reiterate through the entire thing again 
+    # BUT you need to store the new correct list so I think you want to return a tuple maybe? (True, new_list). Keep doing this until you get a correct list.
