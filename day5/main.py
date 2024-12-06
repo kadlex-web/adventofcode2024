@@ -119,14 +119,13 @@ if __name__ == "__main__":
 ### Begin Part II ###
     bad_updates_list = []
     corrected_updates_list = []
+    # creating the bad update list using the approved update code
     for list in update_lists:
         if not update_check(list, rules_dictionary):
             bad_updates_list.append(list)
-    #print(bad_updates_list)
     for list in bad_updates_list:
+        # See comments above on what each function does
         update_dict = fix_updates(list, rules_dictionary)
         new_dict = dictionary_value_sort(update_dict)
         corrected_updates_list.append(get_dictionary_keys(new_dict))
     print(total_middle_value(corrected_updates_list))
-    ## I think you need to just take the list and find when you get to a bad point and then flip the numbers in question and then reiterate through the entire thing again 
-    # BUT you need to store the new correct list so I think you want to return a tuple maybe? (True, new_list). Keep doing this until you get a correct list.
