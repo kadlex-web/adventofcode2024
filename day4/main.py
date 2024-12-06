@@ -27,7 +27,8 @@ def find_m(x, y, new_char, new_data):
         if new_data[x][y] == new_char:
             print(f"found m at {x},{y}")
     return m_list
-
+        # We need to fix the index problem. While I accounted for an index of 0 becoming -1 I didn't account for the fact
+        # that you could end up with an x or y value exceeding the length in either direction
         # Now take the run of coordinates (the arguments will determine what loop runs)
         # iterate through each list of coordinates and see what character it is. if the character is an M, than we have 'XM' so far
         # we need to save the location of each M to then pass to the next function
