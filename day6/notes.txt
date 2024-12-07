@@ -59,3 +59,23 @@ Explain it in code:
             if cannot move it's going to change its direction and call the function again with it's current x and current y
     all of this repeats until the base case happens where the direction == down and the guard x is equal to len of map-1.
     this would mean the next move would have the guard leave -- it'll change that final square and than reture the list of lists map
+
+
+    Addendum:
+        So like I was right about needing to do things over and over again. I just severely overthought the problem 
+        by using recursion. I caused a stack overflow -- which probably means I'm actually programming now!
+        The good thing was -- because the recursive solution worked on the sample -- I was easily able to
+        adapt my code to fit a simple while loop. So I used the idea of "moving" and while the guard was moving
+        we would update the map to show the guard moving about! Then the exit condition is when the guard was about
+        to walk off the map just like the base case in the recursive loop. Coulda save myself some serious time
+        if I actually knew I caused a stack overflow haha.
+
+Part II:
+    Now we have to cause the guard to get into a loop which honestly is just cruel given that I was just stuck in a loop myself.
+    So we need to find all of the locations where a single obstacle could be placed that would cause the guard to get stuck in
+    an infinite loop, but obviously I don't want to get stuck in one because that breaks my code. I guess you could use try:
+    except debugging.
+    My idea is that a guard is stuck if they end up visiting the same location after three subsequent moves.
+    In the sample example we can place an obstacle to the right of where the guard starts at (6,4). next spot is (1,4), (1,8) and  then (6,8)
+    When the guard makes her return trip she gets stuck in the loop because we put a rock at (6,3) causing her to turn endlessly.
+    Can you work backward starting with the exit square and find little squares/rectangles of loops?

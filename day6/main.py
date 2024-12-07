@@ -3,7 +3,7 @@ def find_start(data):
         for char in list:
             if char == "^":
                 return data.index(list), list.index(char)
-            
+'''a beautiful recursive function thats actually just gross and causes stack overflow'''         
 def patrol(x, y, map, direction):
     if y == 0 and direction == "left":
         print("guard is about to leave the map on the left")
@@ -67,7 +67,9 @@ with open ("day6.txt") as f:
             temp_list.append(new_str)
         map.append(temp_list)
     f.close()
-
+'''a simpler soultion to the whole thing using my patrol code and adapting it to just
+work much easier. im glad i accounted for the fact that the guard might need to leave
+a different way'''
 def main():
     x, y = find_start(map)
     direction = "up"
