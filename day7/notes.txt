@@ -1,0 +1,40 @@
+The elephants have stolen the operartors to caliberate if the bridge panels are safe! GASP!
+
+Each sequence of numbers correspond to a calibration equation. For example:
+    190: 10 19
+When we look at the elephants we can see that the operators are either + or * only.
+Given a total (190) we have to figure out how many instances of true can be created on the other side.
+I.e. 190 == 10 * 19 is True == True
+
+In the rest of the sample:
+3267: 81 40 27
+83: 17 5
+156: 15 6
+7290: 6 8 6 15
+161011: 16 10 13
+192: 17 8 14
+21037: 9 7 18 13
+292: 11 6 16 20
+
+So our combinations on equation two are:
+3267 : 81 * 40 * 27 (False)
+3267 : 81 * 40 + 27 (True)
+3267 : 81 + 40 * 27 (True)
+
+How about on number three?
+83 : 17 * 5 (False - 83)
+
+In the sample we end up with the first sequence(1) - the second sequence(2) and the final sequence(1) as true sequences. 
+If a sequence is proved True we need to add it to the total the number of times the sequence was proved true.
+
+My thoughts on a solution:
+    I can take each equation and split it up into a list. I can't use a dictionary because in the data set we can't guarantee
+    a calibration value is repeated. We can split at colon and join -- therefore the first index of that list would be
+    equal to the desired result.
+    The first thing I want to do is cull the results for any sequences when multipled together are less than or equal to the total.
+    The product of all integers would be the highest possible value that can be checked - therefore if that value comes out less than
+    our desired value we HAVE to throw out the sequence because it has no possible way of getting there. For good measure, I might
+    as well pull out all the ones that equal the result because they only have one solution.
+
+    Once we have a culled list (with a total of how many sequences correspond to a product of all integers.) I can then work on
+    the remaining sequences.
