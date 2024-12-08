@@ -22,7 +22,7 @@ So our combinations on equation two are:
 3267 : 81 + 40 * 27 (True)
 
 How about on number three?
-83 : 17 * 5 (False - 83)
+83 : 17 * 5 (False - 85)
 
 In the sample we end up with the first sequence(1) - the second sequence(2) and the final sequence(1) as true sequences. 
 If a sequence is proved True we need to add it to the total the number of times the sequence was proved true.
@@ -38,3 +38,59 @@ My thoughts on a solution:
 
     Once we have a culled list (with a total of how many sequences correspond to a product of all integers.) I can then work on
     the remaining sequences.
+
+    I want to run each equation sequence through all possible permutations to see if I get an equals hit.
+    What about using a search to narrow it down? Since the equations function left to right -- what if I ran another cull
+    where I change half of them to multiplication and then looked at it. 
+        Thinking through the problem I'm not sure it would work since an operator can occupy any space between two numbers.
+        I think I can still cull through the solutions I just want to do one addition operator with the rest being multiplication.
+        This slowly reduces the total on the right side of the equation to try and find a match.
+    I'm trying to think of an easy way to do this -- without writing a ton of code -- and I think it's maybe actually times
+    to use a recursive function? Or is it while loop again because it just does not need to nest that much. 
+        OH -- maybe we only run recursion PER sequence rather than through the whole thing -- return the total and add it on.
+        We can still iterate through the all the lists -- but than only each list is recursively operated on rather than the whole
+        thing which was my problem yesterday now that I realized it -- which is why recursion did NOT work.
+
+Write out the algorithm:
+    DONE! - Load our file into the script and than work on it to get the data in a form we want. We want the data to be a list of lists
+    where each list is a series of integers -- with the first item corresponding to the test value.
+    We need to replace the colon with nothing too! So we run a loop on the data.
+    Then loop through each element in the list and convert it to int as well as replace the colon if it was in the element.
+    We then append that value to a holding list and then once we have iterated through all the elements in that list it's added to a new master list.
+
+    First pass:
+        Reduce the data down by iterating through the list of lists. Taking every element in a list and multiplying them together.
+        If the value is less than the test value -- we know it can't contribute to the total. So we dont do anything with it.
+        If value equals the test value than we have found the one solution for that particular sequence.
+            We should return the test value which will then be added to a total in the list of lists iteration.
+        If the value is greater than the test value -- it means a solution is possible but requires some operator changes.
+            We need to return this list.
+        
+        We need to then test the return values -- if it's int we add it to a running total. If it's list we append it to
+        a new list of lists which need to be evaluated.
+
+
+Something I'm wondering is if you split a list in half and place an operation in the same spot because it's running left to right it will always equal the same thing?
+
+21037: 9 7 18 13
+9 + 7 + 18 * 13 = 442
+9 * 7 + 18 + 23 = 105
+9 + 7 * 18 + 23 = 311
+
+so it works in a weird way
+If the length of the sequence is odd -- 
+
+
+        else:
+            print(f"odds:{list}")
+            if check_test_value_odd(list):
+                total += list[0]
+
+16644898766703
+
+    pass_list, fail_list = first_pass(equations_list)
+    pass_list2, fail_list2 = second_pass(fail_list)
+    total = 0
+
+        for list in pass_list:
+        total += list[0]
