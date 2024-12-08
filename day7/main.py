@@ -31,6 +31,7 @@ def second_pass(equations_list):
 def check_test_value_even(list):
     test_value = list[0]
     working_list = list[::-1][:-1]
+    
     while len(working_list) != 1:
         if test_value % working_list[0] == 0:
             test_value = test_value / working_list[0]
@@ -41,7 +42,7 @@ def check_test_value_even(list):
     if test_value - working_list[0] == 0:
         return True
     else:
-        return 0
+        return False
 '''If the length is odd run it forward -- if its even run it reverse'''
 def check_test_value_odd(list):
     test_value = list[0]
@@ -72,7 +73,12 @@ with open("day7.txt") as f:
 
 if __name__ == "__main__":
     total = 0
+    test_list = []
+    fail_list = []
     for list in equations_list:
         if check_test_value_even(list):
             total += list[0]
-    print(total)
+            test_list.append(list)
+        else:
+            fail_list.append(list)
+    print(fail_list)
