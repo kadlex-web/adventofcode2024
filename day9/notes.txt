@@ -1,0 +1,101 @@
+Day 9:
+
+He shows you the disk map (your puzzle input) he's already generated. For example:
+
+2333133121414131402
+
+The disk map uses a dense format to represent the layout of files and free space on the disk. 
+The digits alternate between indicating the length of a file and the length of free space.
+
+So, a disk map like 12345 would represent a one-block file, two blocks of free space, a three-block file, four blocks of free space, and then a five-block file. 
+A disk map like 90909 would represent three nine-block files in a row (with no free space between them).
+
+12345
+1 block 2 free 3 block 4 free 5 block
+0..111....22222
+((I typed this out and I was correct)
+
+90909
+000000000111111111222222222
+
+Each file on the disc is assigned an id value corresponding to it's number in the sequence and that repeats till the ending digit.
+
+Given this pattern what would we expect?
+
+2333133121414131402
+
+00...111...2...333.44.5555.6666.777.888899
+
+Then we have to do an insertion beginning at the first free space -- and it continues.
+	So find each available free space from the start of the sequence and begin filling in the gaps to the end of the sequence.
+	
+0099811188827773336446555566
+0099811188827773336446555566
+0099811188827773336446555566..............
+Then we get the product of block value and file ID number
+
+MEEEEEEEEEOOOOOOOOOWWWWW
+
+First step:
+	We need to build the true filesum sequence.
+	
+Also the file sequence is 19999 characters long lol.
+
+Each two digit sequence (i.e. 23) in the above example corresponds to the number of times the current ID value repeats and then the number of dots after it.
+So I'll split the sequence into two integers blocks to begin -- if the last block is alone than we know it's just a sequence at the end.
+
+I understand that the maximum number of ID values is equivalent to the number of possible blocks which would be the list length of our split list.
+Therefore in a for loop where the range is equivalent to i -- each list would have the correct id value assigned to it and one needs to just multiply the block value by the id (represented as a string)
+
+Each value should be appended to a master filesum list as list elements individually. So for a sequence above like 23 / 33.
+[0, 0, ., ., ., 1, 1, 1, ., ., .]
+
+I think we want to think of each block once they get larger as a larger integer.
+For example given the above sequence ending on ID:9. If we moved to the next one (assuming a free space of 0) and the file block is two. 
+It would end up being .888899/1010/ - which I think is how it should be pasted.
+The file blocks need to be separate because when we do the multiplication at the end -- it needs to multiply by the index value.
+
+
+For the reshaping phase -- I could use .pop() to get the value removed and stored in a variable.
+Find the next "." in the sequence using regex and use the sub method to replace that character with the popped element.
+
+I want to try and preserve the length of the sequence on the off-chance it's necessary. So we need to replace every block that we move within the sequence with a '.'
+Given the value at [-1]
+If it's not a "." -- hold it in a variable (make a copy?)
+
+How about we just swap lol.
+	Swap the value at the end of the list with the next instance of a "."
+filesystem[-1], filesystem[indexof(".")] = filesystem[indexof(".")], filesystem[-1]
+
+Can I count the number of "." characters in the list which corresponds to the number of spaces to fill -- and then run a while loop that terminates when it has made the number of moves equal to the number of spaces?
+
+The total number of spaces is equal to the total of the second "value" in a sequence.
+All you would have to do is get the sum of the value at every index 
+
+
+Part II --- Restructuring
+
+The eager amphipod already has a new plan: rather than move individual blocks, he'd like to try compacting the files on his disk by moving whole files instead.
+
+This time, attempt to move whole files to the leftmost span of free space blocks that could fit the file. 
+Attempt to move each file exactly once in order of decreasing file ID number starting with the file with the highest file ID number. 
+If there is no span of free space to the left of a file that is large enough to fit the file, the file does not move.
+
+00...111...2...333.44.5555.6666.777.888899
+0099.111...2...333.44.5555.6666.777.8888..
+0099.1117772...333.44.5555.6666.....8888..
+0099.111777244.333....5555.6666.....8888..
+00992111777.44.333....5555.6666.....8888..
+
+The above is the example -- I can see that the 99 block moves first.
+The 777 block moves next because 8888 cannot fit.
+The 6666 and 5555 blocks are also too large and stay put.
+The 44 block moves beause there is space, but the 333 block cant.
+Finally we try the 2 block which can move because there is a space for it.
+
+Each file gets only one chance to move -- so once it's window has passed it can't move again.
+Each file only gets a chance at the leftmost span of open space -- it can't fit anywhere else.
+
+I guess the way the data is structured -- each list entry corresponds to the number of the ID repeated and the free spaces available.
+In theory -- we'd check to see if the first number -- for example in the first example we have a 2. And see if it less than or equal to the the available free space which is 3.
+Since it is -- we can move that value there.
