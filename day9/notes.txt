@@ -99,3 +99,4 @@ Each file only gets a chance at the leftmost span of open space -- it can't fit 
 I guess the way the data is structured -- each list entry corresponds to the number of the ID repeated and the free spaces available.
 In theory -- we'd check to see if the first number -- for example in the first example we have a 2. And see if it less than or equal to the the available free space which is 3.
 Since it is -- we can move that value there.
+
