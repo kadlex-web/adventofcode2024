@@ -1,0 +1,63 @@
+The data input is a list of integers which corresponds to heights.
+
+0 is the lowest height, 9 is the highest height.
+
+Based on the data -- we need to chart a series of trails throughout our dataset.
+
+Trails must be even, gradual and uphill and as long as possible.
+A trail begins at 0 and ends at 9.
+The steps between each value must be equal to 1.
+
+A trailhead always begins at a value of 0. It then continues if possible to any number 9 -- provided each step is equal to 1.
+We then score the trailhead based on how many 9s it can reach.
+
+The below example only scores 1. It has to - there is only one 0 and one 9.
+
+0123
+1234
+8765
+9876
+
+...0...
+...1...
+...2...
+6543456
+7.....7
+8.....8
+9.....9
+
+This one has a score of two -- the 0 ends up splitting into two possible 9s.
+
+..90..9
+...1.98
+...2..7
+6543456
+765.987
+876....
+987....
+
+Only one trailhead but it can reach four different summits -- scores 4.
+
+89010123
+78121874
+87430965
+96549874
+45678903
+32019012
+01329801
+10456732
+
+This one scores a total of 36! Each trailhead scores 5,6,5,3,1,3,5,3.
+
+
+The approach:
+
+I think it needs to be recursion because the amount of moves is unknown we just need to find out all of them. Recursion is good for searching (I think).
+
+Avoiding pitfalls -- we only want to act on one potential trailhead at a time meaning we pass in one 0. This will avoid recursion hell.
+I think fundamentally we want to check each of the cardinal directions around a given origin point.
+
+What if I wrote a function called check neighbors -- which looks at every neighbor at the [0,1],[0,-1],[1,0][-1,0] locations and if the value is equal to the next desired value -- it "moves" to that value it 
+repeats the function recursvely checking the neighbors of that next value.
+
+return get_trailhead_score(new_origin, next_step, trail_map)
