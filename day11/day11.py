@@ -43,8 +43,19 @@ def calculate_new_arrangement(stone_list, blink=0):
 
 
 starting_list = [1117, 0, 8, 21078, 2389032, 142881, 93, 385]
+stone1 = [1117]
+stone2 = [0]
+stone3 = [8]
+stone4 = [21078]
+stone5 = [2389032]
+stone6 = [142881]
+stone7 = [93]
+stone8 = [385]
 sample_list = [125, 17]
 def main():
-    return len(calculate_new_arrangement(starting_list))
+    return len(calculate_new_arrangement(stone1))
 
 print(main())
+
+'''Possibility for Part II -- break up each stone into an individual stone and calculate its 75 step
+sequence -- then add all of them together'''
