@@ -3,34 +3,34 @@ def check_valid_indexes(row, column, trail_map):
         return False
     return True
 
-def get_trailhead_score(origin, starting_step, trail_map):
+# Returns a list which contains the indexes to the nearest valid neighbors from a specific origin point
+def get_neighbors(origin, trail_map, step):
     coordinates = [[1,0], [-1,0], [0,1], [0,-1]]
-    if starting_step == 9:
-        print("i made it to the end")
-        return 1
-        # could create a function to find out how many 9s are around it
-        
     neighbor_indexes = []
+    if step == 9:
+        return neighbor_indexes
     for value in coordinates:
         neighbor_row = origin[0] + value[0]
         neighbor_column = origin[1] + value[1]
-        neighbor_indexes.append([neighbor_row, neighbor_column])
-        print(neighbor_indexes)
-    # I think I need to refactor for current value -- I want to check
-    # if my current slope value will be equal to the next slope values
-    for neighbor in neighbor_indexes:
+        if check_valid_indexes(neighbor_row, neighbor_column, trail_map):
+            neighbor_indexes.append([neighbor_row, neighbor_column])
+    for index in neighbor_indexes:
+        new_origin = [index[0], index[1]]
+        new_step = step + 1
+        return neighbor_indexes.extend(get_neighbors(new_origin, trail_map, new_step))
+
+    '''for neighbor in neighbor_indexes:
         neighbor_x = neighbor[0]
         neighbor_y = neighbor[1]
         if check_valid_indexes(neighbor_x, neighbor_y, trail_map):
-            slope_value = trail_map[neighbor_x][neighbor_y]
-            if int(slope_value) == (starting_step + 1):
-                print(f"ok - {starting_step}")
+            neighbor_value = trail_map[neighbor_x][neighbor_y]
+            if int(neighbor_value) == (starting_step + 1):
                 new_origin = [neighbor_x, neighbor_y]
                 next_step = starting_step + 1
                 print(f"new_origin{new_origin} next step{next_step}")
                 return get_trailhead_score(new_origin, next_step, trail_map)
             else:
-                pass
+                print("next value isnt gradual")'''
             
 with open("sample.txt") as f:
     data = f.read()
@@ -64,7 +64,6 @@ for row in trail_map:
 
 
 def main():
-    total_trail_score = get_trailhead_score([0,2], 0, trail_map)
-    print(total_trail_score)
-    
+    print(get_neighbors([7,2], trail_map, 0))
+
 main()
