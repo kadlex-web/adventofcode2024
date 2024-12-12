@@ -21,13 +21,14 @@ What's the algorithm?
   '''
 
 def calculate_new_arrangement(stone_list, stone_dict, blink=0):
-    if blink == 5:
+    if blink == 25:
+        print(stone_list)
         return stone_list
     new_stones_list = []
 
     for stone in stone_list:
         if stone in stone_dict:
-            stone_dict.get(stone).append(new_stones_list)
+            new_stones_list.append(stone_dict.get(stone))
         else:
             str_stone = str(stone)
             if len(str_stone) % 2 == 0:
@@ -57,17 +58,20 @@ stone8 = [385]
 sample_list = [125, 17]
 
 def main():
-    return len(calculate_new_arrangement(sample_list))
+    return len(calculate_new_arrangement(stone1, stone_dict))
 
 print(main())
 
 '''Possibility for Part II -- break up each stone into an individual stone and calculate its 75 step
 sequence -- then add all of them together
 
-The above doesn't work lol -- the number of computations is too great (2x10E22)
+Note 12/12 8:45 AM -- The above doesn't work lol -- the number of computations is too great (2x10E22)
 But what I think might work is creating a dictionary of all the stones and their values which is build through iteration
 Essentially if a stone doesnt have a value we calculate what it's value would be (maybe convert the loop to a function
 Then if it does return the value and append to the list?
 I think hashmap searching is a O(1) or O(n) at worst whereas what I'm doing is O(n^2) I THINK
 Could use dictionary.setdefault to ensure we get the value and if not we get to create the desired key or defaultdict might be better?
-Honestly? Regular dictionary might be better'''
+Honestly? Regular dictionary might be better
+
+Note 12/12 9:30 AM -- regular dictionary was better -- I think I might have to "memorize" or build out the dictionary table in advance and then pass it into the function for the 75 blinks
+I'll finish this at home'''
