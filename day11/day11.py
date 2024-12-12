@@ -20,28 +20,31 @@ What's the algorithm?
     Increment up the step by 1 and repeat.
   '''
 
-def calculate_new_arrangement(stone_list, blink=0):
-    if blink == 75:
+def calculate_new_arrangement(stone_list, stone_dict, blink=0):
+    if blink == 5:
         return stone_list
     new_stones_list = []
-    
+
     for stone in stone_list:
-        str_stone = str(stone)
-        if stone == 0:
-            new_stone = 1
-            new_stones_list.append(new_stone)
-        elif len(str_stone) % 2 == 0:
-            stone_length = int(len(str_stone)/2)
-            left_stone = str_stone[0:(stone_length)]
-            right_stone = str_stone[(stone_length):len(str_stone)]
-            new_stones_list.append(left_stone)
-            new_stones_list.append(int(right_stone))
+        if stone in stone_dict:
+            stone_dict.get(stone).append(new_stones_list)
         else:
-            new_stone = int(stone) * 2024
-            new_stones_list.append(new_stone)
-    return calculate_new_arrangement(new_stones_list, blink + 1)
+            str_stone = str(stone)
+            if len(str_stone) % 2 == 0:
+                stone_length = int(len(str_stone)/2)
+                left_stone = int(str_stone[0:(stone_length)])
+                right_stone = int(str_stone[(stone_length):len(str_stone)])
+                new_stones_list.append(left_stone)
+                new_stones_list.append(right_stone)
+            else:
+                new_stone = int(stone) * 2024
+                stone_dict[stone] = new_stone
+                new_stones_list.append(new_stone)
+    return calculate_new_arrangement(new_stones_list, stone_dict, blink + 1)
 
-
+stone_dict = {
+    0 : 1,
+}
 starting_list = [1117, 0, 8, 21078, 2389032, 142881, 93, 385]
 stone1 = [1117]
 stone2 = [0]
@@ -52,10 +55,19 @@ stone6 = [142881]
 stone7 = [93]
 stone8 = [385]
 sample_list = [125, 17]
+
 def main():
-    return len(calculate_new_arrangement(stone1))
+    return len(calculate_new_arrangement(sample_list))
 
 print(main())
 
 '''Possibility for Part II -- break up each stone into an individual stone and calculate its 75 step
-sequence -- then add all of them together'''
+sequence -- then add all of them together
+
+The above doesn't work lol -- the number of computations is too great (2x10E22)
+But what I think might work is creating a dictionary of all the stones and their values which is build through iteration
+Essentially if a stone doesnt have a value we calculate what it's value would be (maybe convert the loop to a function
+Then if it does return the value and append to the list?
+I think hashmap searching is a O(1) or O(n) at worst whereas what I'm doing is O(n^2) I THINK
+Could use dictionary.setdefault to ensure we get the value and if not we get to create the desired key or defaultdict might be better?
+Honestly? Regular dictionary might be better'''
