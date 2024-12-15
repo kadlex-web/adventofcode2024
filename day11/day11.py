@@ -21,8 +21,7 @@ What's the algorithm?
   '''
 
 def calculate_new_arrangement(stone_list, stone_dict, blink=0):
-    if blink == 25:
-        print(stone_list)
+    if blink == 75:
         return stone_list
     new_stones_list = []
 

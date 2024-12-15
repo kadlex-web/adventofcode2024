@@ -1,3 +1,10 @@
+def get_hash_table(data):
+    hash_table = {}
+    for i in range(0, len(data)):
+        for j in range(0, len(data[i])):
+            hash_table[(i, j)] = data[i][j]
+    return hash_table
+
 def find_x(x, y, new_data):
     value = new_data[x][y]
     if value == "X":
@@ -44,16 +51,17 @@ for list in data:
         temp_list.append(char)
     new_data.append(temp_list)
 
-def main():
-    list_of_x = []
-    values = []
-    for x in range(0, len(new_data)):
-        for y in range(0, len(new_data[x])):
-            if find_x(x, y, new_data):
-                list_of_x.append([x, y])
-                
-    for coords in list_of_x:
-        values += find_m(coords[0], coords[1], "M", new_data)
-        
-    return values
-print(main())
+sample_data = []
+for list in new_data:
+    temp_list = []
+    for value in list:
+        temp_list.append(value)
+    sample_data.append(temp_list)
+
+if __name__ == "__main__":
+    table = get_hash_table(sample_data)
+    x_list = []
+    for key,value in table:
+        if table[(key, value)] == "X":
+            x_list.append((key, value))
+    print(x_list)
