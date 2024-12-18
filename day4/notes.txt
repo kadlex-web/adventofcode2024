@@ -1,0 +1,55 @@
+# Day 4 part 2
+
+''' It's not an XMAS solve -- it's an X-MAS solve... where correct values are Xs of MAS.
+
+M.S
+.A.
+M.S
+
+An example of a valid X. 
+
+.M.S......
+..A..MSMS.
+.M.S.MAA..
+..A.ASMSM.
+.M.S.M....
+..........
+S.S.S.S.S.
+.A.A.A.A..
+M.M.M.M.M.
+..........
+
+The sample example would solve to 9 values.
+
+Psuedocode:
+
+Generate a list of A indices using the hash table.
+    if hash_table value is equal to "A":
+        give me the coordinate and add it to a list called a_list
+        
+    build a list of possible coordinates the locations could be in 
+    [-1,-1], [-1,1], [1,-1] [1,1] are the possible locations for valid X characters
+    
+    loop through each transform
+        for transformation in the transformation list
+            evaluate if the value at the coordinate is M -- if its an M
+                check and see if the values "adjacent" are M
+                    if transform[0] is negative -- we check transform[0] + 2
+                    if transform[0] is positive -- we check transform[0] - 2
+                    repeat the same for transform[1] to build the two coordinates
+                    if one of them is M -- great! we can proceed --
+                    if both of them are M -- booo it means its not a valid cross (it would mean the string is MAM)
+                    if none of them are M -- boo -- it means we can't build crosses
+                    
+                    ((maybe build a function which checks the opposite value -- would be useful to run 
+        see if the value of the original a coordinate value plus the transformed coordinate value are equal to "MA"
+            check and see if the opposite value is a "S"
+            
+            if transform[0] is less than 1 -- add 1 to the original coordinate
+            if transform[0] is greater than 1 -- subtract 1 from the original coordinate
+            do the same with transform[1]
+            get the hash_table value of that coordinate
+            
+            if that equals "MAS"
+            
+            do we even need to loop?? isnt the simplest case that the value in the top corner is an M or S? if its an X or A we already kn
