@@ -1,4 +1,3 @@
-import collections
 # In theory this should generate all the neighbors around a given node, check if they are valid locations and then return a list of valid neighbors for a given point
     # In most cases - this should be 8 data points, but corners and edges should generate much less
 def get_hash_table(data):
@@ -7,26 +6,14 @@ def get_hash_table(data):
         for j in range(0, len(data[i])):
             hash_table[(i, j)] = data[i][j]
     return hash_table
-
-def get_valid_neighbors(x, y, hash_table):
-    final_neighbors_list = []
-    neighbor_coordinates = [(-1,-1), (-1,0), (-1,1), (0,-1), (0,1), (1,-1), (1,0), (1,1)]
-    neighbors_list = map(lambda arr: (arr[0] + x, arr[1] + y), neighbor_coordinates)
-    de = collections.deque(neighbors_list)
-    while len(de) > 0:
-        coord = de.popleft()
-        # need to fix second conditional piece because we don't have the parameters of the graph
-        if coord[0] >= 0 and coord[0] <= 9:
-            if coord[1] >= 0 and coord[1] <= 9:
-                final_neighbors_list.append(coord)
-    return final_neighbors_list            
-
+    
 def check_string(x, y, hash_table):
     count = 0
     # given an origin point (let's use 0,4)
     # apply each possible transform to it
     transform_list = [(-1,-1), (-1,0), (-1,1), (0,-1), (0,1), (1,-1), (1,0), (1,1)]
-
+# this is lazy repetitive code and I just don't have the heart to refactor
+# yes of course it could be recursion
     for transform in transform_list:
         mod1 = transform[0] + x
         mod2 = transform[1] + y
@@ -78,7 +65,6 @@ if __name__ == "__main__":
             x_list.append((key, value))
 
     xmas_count = 0
-    
     for value in x_list:
         xmas_count += check_string(value[0], value[1], table)
     print(xmas_count)
